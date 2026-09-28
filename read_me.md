@@ -3,7 +3,7 @@
 **Aluno**: Gabriel Pinto de Lira do Nascimento
 **Matricula**: 4052026000244
 
-**MVP - Setembro de 2026 **
+**MVP - Setembro de 2026**
 
 
 ## 1. Considerões iniciais de motivação
@@ -126,7 +126,7 @@ A segunda parte do projeto lida com a ingestão de arquivos estáticos.
 * **Inteligência de Carga:** Desenvolvemos um script Python que varre o volume e classifica dinamicamente o conteúdo dos CSVs pelas suas colunas, garantindo flexibilidade independentemente do nome do arquivo.
 * **Merge e Deduplicação:** O pipeline verifica o que já foi ingerido via API (Parte 1). Se o arquivo do volume for redundante, ele é marcado como tal. Se contiver dados novos ou complementares (como tabelas específicas de irregularidades), ele cria novas tabelas na camada Bronze.
 
-![Captura de tela 2026-09-26 165218.png](./Captura de tela 2026-09-26 165218.png "Captura de tela 2026-09-26 165218.png")
+![sec4_2_ingestao_volumes.png](./sec4_2_ingestao_volumes.png "sec4_2_ingestao_volumes.png")
 
 
 ## 5. Pipeline de Dados
@@ -177,7 +177,7 @@ Dashboard: BACEN - Analise por Tema
 
 ### 5.3 Teste de notebooks
 
-![Captura de tela 2026-09-27 164930.png](./Captura de tela 2026-09-27 164930.png "Captura de tela 2026-09-27 164930.png")
+![sec5_3_teste_notebooks.png](./sec5_3_teste_notebooks.png "sec5_3_teste_notebooks.png")
 _(teste realizado, optando-se pela segunda forma de estruturar)_
 
 A tentacao de colocar tudo em um unico notebook e comum, especialmente em projetos de MVP. No entanto, a separacao em notebooks distintos trouxe beneficios concretos durante o desenvolvimento:
@@ -208,7 +208,7 @@ No total, a pipeline cria **8 tabelas Bronze, 7 tabelas Silver e 14 tabelas Gold
 
 #### A) Camada Bronze (8 tabelas)
 
-![Captura de tela 2026-09-27 203031.png](./Captura de tela 2026-09-27 203031.png "Captura de tela 2026-09-27 203031.png")
+![sec5_6_bronze_tabelas.png](./sec5_6_bronze_tabelas.png "sec5_6_bronze_tabelas.png")
 
 Dados raw, sem transformacoes pesadas, com metadados de auditoria (`_data_carga`, `_arquivo_origem`).
 
@@ -225,7 +225,7 @@ Dados raw, sem transformacoes pesadas, com metadados de auditoria (`_data_carga`
 
 #### B) Camada Silver (7 tabelas)
 
-![Captura de tela 2026-09-27 203045.png](./Captura de tela 2026-09-27 203045.png "Captura de tela 2026-09-27 203045.png")
+![sec5_6_silver_tabelas.png](./sec5_6_silver_tabelas.png "sec5_6_silver_tabelas.png")
 
 Dados tipados, limpos e deduplicados via `ROW_NUMBER()`. Strings viram INT/DECIMAL/TIMESTAMP, `NULLIF(TRIM(...), '')` para espacos vazios, `REPLACE` de separadores.
 
@@ -241,7 +241,7 @@ Dados tipados, limpos e deduplicados via `ROW_NUMBER()`. Strings viram INT/DECIM
 
 #### C) Camada Gold (14 tabelas)
 
-![Captura de tela 2026-09-27 203038.png](./Captura de tela 2026-09-27 203038.png "Captura de tela 2026-09-27 203038.png")
+![sec5_6_gold_tabelas.png](./sec5_6_gold_tabelas.png "sec5_6_gold_tabelas.png")
 
 Tabelas analiticas com rankings, resumos anuais e combinacoes cross-source. Criadas via `CREATE OR REPLACE TABLE AS SELECT` (CTAS).
 
@@ -380,10 +380,10 @@ O site do banco central disponibiliza um documento em PDF que foi usado como bas
 Abaixo imagens dos documentos encontrados  e da catalgocação feita no databriks. 
 
 **A) Documento do BACEN**
-![Captura de tela 2026-09-27 162631.png](./Captura de tela 2026-09-27 162631.png "Captura de tela 2026-09-27 162631.png")
+![sec7_documento_bacen.png](./sec7_documento_bacen.png "sec7_documento_bacen.png")
 
 **B)Documentação no datacatalog**
-![image_1790552359057.png](./image_1790552359057.png "image_1790552359057.png")
+![sec7_datacatalog_databricks.png](./sec7_datacatalog_databricks.png "sec7_datacatalog_databricks.png")
 
 
 ## 8 Resultado: Analise e Dashboards
@@ -490,11 +490,11 @@ Os dados Gold sao consumidos pelo dashboard **[BACEN - Analise por Tema](#dashbo
 * **Ouvidorias**: evolucao temporal, top instituicoes por nota final e ranking do periodo mais recente (2021 T4)
 * **Irregularidades**: top instituicoes por reclamacoes procedentes, super categorias (agrupamento de 192 tipos em 8 macro-categorias) e ranking detalhado do periodo mais recente (2026 T2)
 
-![Captura de tela 2026-09-27 211543.png](./Captura de tela 2026-09-27 211543.png "Captura de tela 2026-09-27 211543.png")
+![sec8_2_dashboard_1.png](./sec8_2_dashboard_1.png "sec8_2_dashboard_1.png")
 
-![Captura de tela 2026-09-27 211553.png](./Captura de tela 2026-09-27 211553.png "Captura de tela 2026-09-27 211553.png")
+![sec8_2_dashboard_2.png](./sec8_2_dashboard_2.png "sec8_2_dashboard_2.png")
 
-![Captura de tela 2026-09-27 211602.png](./Captura de tela 2026-09-27 211602.png "Captura de tela 2026-09-27 211602.png")
+![sec8_2_dashboard_3.png](./sec8_2_dashboard_3.png "sec8_2_dashboard_3.png")
 
 ### 8.3 Principais Insights
 
