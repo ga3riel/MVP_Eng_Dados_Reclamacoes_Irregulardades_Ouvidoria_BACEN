@@ -9,7 +9,7 @@
 ## 1. Considerões iniciais de motivação
 Estou na minha segunda sprint da Pós de Machine Learning e Analytics. Na primeira de machine learning fiz sobre café: contexto é fundamental, e é um tema que tenho mais intimidade por ser um grande apreciado. 
 
-Essa estratégia se tornou fundamental para construir um MVP que gerou valor para mim em questão de entendimento, e foi bem avaliado pela banca, justamente por ter sido bem documentado. Eu consegui parametrizar e criar uma narrativa critica das minhas decisões. E vou continuar com essa estratégia. 
+Essa estratégia se tornou fundamental para construir um MVP que gerou valor para mim em questão de entendimento, e foi bem avaliado pela banca, justamente por ter contexto para criar uma analise critica do que fiz. Eu consegui parametrizar e criar uma narrativa critica das minhas decisões. E vou continuar com essa estratégia neste MVP. 
 
 **Para este MVP resolvi construir um projeto de engenharia de dados que analisa os dados de reclamação do Banco Central do Brasil (BACEN).**
 
