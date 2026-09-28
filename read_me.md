@@ -1,7 +1,9 @@
-# MVP PUC Eng. de Dados: Pipiline de extração de dados de reclamação do BACEN - via API e via Manual
+# MVP PUC-RIO Eng. de Dados: Pipiline de extração de dados de reclamação do BACEN - via API e via Manual
 
 **Aluno**: Gabriel Pinto de Lira do Nascimento
 **Matricula**: 4052026000244
+
+Pos Graduação em Machine Learning e Analytics | Sprint 2
 
 **MVP - Setembro de 2026**
 
