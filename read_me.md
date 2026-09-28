@@ -24,7 +24,7 @@ Na minha jornada de transição de designer para analista de dados e quem sabe e
 
 **Construir um pipeline de dados de ponta a ponta na nuvem para processar, estruturar e analisar o histórico de reclamações e a qualidade das ouvidorias dos bancos e consórcios no Brasil.**
 
-Com base nesse ojetivo, consegui mapear que existiam dois caminhos para obter os dados: extração através de uma API, e manualmente, através de uma pagina do bacen, gerada dinamicamente, com tabelas em CSV e PDfs. 
+Com base nesse objetivo, consegui mapear que existiam dois caminhos para obter os dados: extração através de uma API, e manualmente, através de uma pagina do bacen, gerada dinamicamente, com tabelas em CSV e PDfs. 
 
 Explorando os dados da API, percebi que não tinham todos os dados disponiveis, principalmente no que diz respeito as **irregularidades**. Isso é bem comum de acontecer: por mais que existam dados disponiveis em APIs, ainda assim é comum enriquecimentos feitos a partir de dados manuais, como arquivos CSVs e PDFs. 
 
@@ -67,10 +67,10 @@ A primeira parte do projeto foca na automação. Em vez de realizar downloads ma
 * **Ranking de Reclamações (Bancos e Consórcios):** Exploramos o endpoint REST (`https://www3.bcb.gov.br/rdrweb/rest/ext/ranking/arquivo`) parametrizando as requisições em um loop iterando por ano e período.
 * **Qualidade de Ouvidorias:** Consumimos a API Olinda OData (`https://olinda.bcb.gov.br/olinda/servico/RankingOuvidorias/versao/v1/odata/`), que permite acessar os relatórios formatados nativamente em JSON.
 
-**Eu descobri a API através de pesquisas feitas no google**
-Não achei trivial navegar em sites como: https://dadosabertos.bcb.gov.br/. A Inteligência artificial nesse aspecto foi um grande facilitador em achar e explorar a API. EM dados abertos não achei as informações. 
+**Descobri a API através de pesquisas feitas no google, consultando foruns**
+Não achei trivial navegar em sites como: https://dadosabertos.bcb.gov.br/. A Inteligência artificial nesse aspecto foi um grande facilitador em achar e explorar a API e foruns sobre o tema. EM dados abertos achei apenas algumas informações
 
-Então a IA apontou a existencia da API, e foi essa forma que descobri, para além do site manual. Alem disso ela me ajudou a testar
+Então a IA apontou a existencia da API, e foi essa forma que descobri, para além do site manual. Alem disso ela me ajudou a testar e validar a fonte de dados.
 
 #### 4.1.1 Estrutura das APIs e Teste Rápido
 
