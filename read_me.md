@@ -63,6 +63,8 @@ Nesse cenário, fugir totalmente de etapas manuais e de checagens pontuais torna
 Para garantir um pipeline resiliente e demonstrar diferentes capacidades de ingestão na camada Bronze, a etapa de extração foi dividida em duas abordagens técnicas complementares:
 
 ### 4.1: Ingestão Automatizada via APIs do Banco Central
+
+![4_api.png](./4_api.png "4_api.png")
 A primeira parte do projeto foca na automação. Em vez de realizar downloads manuais, o pipeline utiliza scripts Python (PySpark e `requests`) para explorar e extrair dados dinamicamente direto das APIs oficiais:
 * **Ranking de Reclamações (Bancos e Consórcios):** Exploramos o endpoint REST (`https://www3.bcb.gov.br/rdrweb/rest/ext/ranking/arquivo`) parametrizando as requisições em um loop iterando por ano e período.
 * **Qualidade de Ouvidorias:** Consumimos a API Olinda OData (`https://olinda.bcb.gov.br/olinda/servico/RankingOuvidorias/versao/v1/odata/`), que permite acessar os relatórios formatados nativamente em JSON.
