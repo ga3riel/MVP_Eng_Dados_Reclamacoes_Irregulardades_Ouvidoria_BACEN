@@ -1,0 +1,1043 @@
+{
+  "datasets": [
+    {
+      "name": "irr_top",
+      "displayName": "Top Irregularidades",
+      "queryLines": [
+        "SELECT\n",
+        "  instituicao_financeira,\n",
+        "  total_procedentes\n",
+        "FROM\n",
+        "  workspace.bacen_gold.evolucao_irregularidades_instituicao\n",
+        "WHERE\n",
+        "  (ano, trimestre) IN (\n",
+        "    SELECT\n",
+        "      MAX(ano),\n",
+        "      MAX(trimestre)\n",
+        "    FROM\n",
+        "      workspace.bacen_gold.evolucao_irregularidades_instituicao\n",
+        "    WHERE\n",
+        "      ano\n",
+        "        = (\n",
+        "          SELECT\n",
+        "            MAX(ano)\n",
+        "          FROM\n",
+        "            workspace.bacen_gold.evolucao_irregularidades_instituicao\n",
+        "        )\n",
+        "  )\n",
+        "ORDER BY\n",
+        "  total_procedentes DESC\n",
+        "LIMIT 15"
+      ]
+    },
+    {
+      "name": "ouv_ranking",
+      "displayName": "Ranking Ouvidorias 2021 T4",
+      "queryLines": [
+        "SELECT\n",
+        "  ranking_nota,\n",
+        "  categoria,\n",
+        "  instituicao_financeira,\n",
+        "  nota_final,\n",
+        "  nota_prazo,\n",
+        "  nota_qualidade,\n",
+        "  tempo_medio_respostas\n",
+        "FROM\n",
+        "  workspace.bacen_gold.ranking_ouvidorias\n",
+        "WHERE\n",
+        "  ano = 2021\n",
+        "  AND periodo = 4\n",
+        "  AND tipo_periodo = 'T'\n",
+        "ORDER BY\n",
+        "  ranking_nota\n",
+        "LIMIT 20"
+      ]
+    },
+    {
+      "name": "irr_ranking",
+      "displayName": "Ranking Irregularidades",
+      "queryLines": [
+        "SELECT\n",
+        "  CASE\n",
+        "    WHEN irregularidade LIKE 'Insatisfação com o atendimento%' THEN 'Atendimento/SAC'\n",
+        "    WHEN irregularidade LIKE 'Oferta ou prestação de informação%' THEN 'Informação Inadequada'\n",
+        "    WHEN irregularidade LIKE 'Débito em conta%' THEN 'Débitos Não Autorizados'\n",
+        "    WHEN irregularidade LIKE '%SCR%' THEN 'SCR/Informações de Crédito'\n",
+        "    WHEN irregularidade LIKE '%conta de pagamento%' THEN 'Contas e Pagamentos'\n",
+        "    WHEN irregularidade LIKE '%cartões de crédito%' THEN 'Cartões de Crédito'\n",
+        "    WHEN irregularidade LIKE '%crédito consignado%' THEN 'Crédito Consignado'\n",
+        "    WHEN irregularidade LIKE '%crédito%' THEN 'Crédito (Outros)'\n",
+        "    ELSE 'Outros'\n",
+        "  END AS super_categoria,\n",
+        "  irregularidade,\n",
+        "  total_procedentes,\n",
+        "  qtd_instituicoes\n",
+        "FROM\n",
+        "  workspace.bacen_gold.top_irregularidades_periodo\n",
+        "WHERE\n",
+        "  (ano, trimestre) IN (\n",
+        "    SELECT\n",
+        "      MAX(ano),\n",
+        "      MAX(trimestre)\n",
+        "    FROM\n",
+        "      workspace.bacen_gold.top_irregularidades_periodo\n",
+        "    WHERE\n",
+        "      ano\n",
+        "        = (\n",
+        "          SELECT\n",
+        "            MAX(ano)\n",
+        "          FROM\n",
+        "            workspace.bacen_gold.top_irregularidades_periodo\n",
+        "        )\n",
+        "  )\n",
+        "ORDER BY\n",
+        "  rank_periodo\n",
+        "LIMIT 20"
+      ]
+    },
+    {
+      "name": "irr_evolucao",
+      "displayName": "Evolução Irregularidades",
+      "queryLines": [
+        "SELECT\n",
+        "  ano,\n",
+        "  categoria,\n",
+        "  total_procedentes\n",
+        "FROM\n",
+        "  workspace.bacen_gold.resumo_irregularidades_anual\n",
+        "ORDER BY\n",
+        "  ano,\n",
+        "  categoria"
+      ]
+    },
+    {
+      "name": "ouv_evolucao",
+      "displayName": "Evolução Ouvidorias",
+      "queryLines": [
+        "SELECT\n",
+        "  ano,\n",
+        "  categoria,\n",
+        "  total_respostas\n",
+        "FROM\n",
+        "  workspace.bacen_gold.resumo_ouvidorias_anual\n",
+        "ORDER BY\n",
+        "  ano,\n",
+        "  categoria"
+      ]
+    },
+    {
+      "name": "rec_evolucao",
+      "displayName": "Evolução Reclamações",
+      "queryLines": [
+        "SELECT\n",
+        "  ano,\n",
+        "  categoria,\n",
+        "  total_reclamacoes\n",
+        "FROM\n",
+        "  workspace.bacen_gold.resumo_anual_reclamacoes\n",
+        "ORDER BY\n",
+        "  ano,\n",
+        "  categoria"
+      ]
+    },
+    {
+      "name": "rec_top",
+      "displayName": "Top Reclamações 2026 T2",
+      "queryLines": [
+        "SELECT\n",
+        "  instituicao_financeira,\n",
+        "  qtd_reclamacoes,\n",
+        "  categoria\n",
+        "FROM\n",
+        "  workspace.bacen_gold.ranking_reclamacoes\n",
+        "WHERE\n",
+        "  ano = 2026\n",
+        "  AND trimestre = 2\n",
+        "ORDER BY\n",
+        "  qtd_reclamacoes DESC\n",
+        "LIMIT 15"
+      ]
+    },
+    {
+      "name": "rec_ranking",
+      "displayName": "Ranking Reclamações 2026 T2",
+      "queryLines": [
+        "SELECT\n",
+        "  ranking_periodo,\n",
+        "  categoria,\n",
+        "  instituicao_financeira,\n",
+        "  qtd_reclamacoes,\n",
+        "  taxa_reclamacoes_por_milhao,\n",
+        "  indice\n",
+        "FROM\n",
+        "  workspace.bacen_gold.ranking_reclamacoes\n",
+        "WHERE\n",
+        "  ano = 2026\n",
+        "  AND trimestre = 2\n",
+        "ORDER BY\n",
+        "  ranking_periodo\n",
+        "LIMIT 20"
+      ]
+    },
+    {
+      "name": "ouv_top",
+      "displayName": "Top Ouvidorias 2021 T4",
+      "queryLines": [
+        "SELECT\n",
+        "  instituicao_financeira,\n",
+        "  nota_final\n",
+        "FROM\n",
+        "  workspace.bacen_gold.ranking_ouvidorias\n",
+        "WHERE\n",
+        "  ano = 2021\n",
+        "  AND periodo = 4\n",
+        "  AND tipo_periodo = 'T'\n",
+        "ORDER BY\n",
+        "  nota_final DESC\n",
+        "LIMIT 15"
+      ]
+    },
+    {
+      "name": "irr_super",
+      "displayName": "Super Categorias Irregularidades",
+      "queryLines": [
+        "SELECT\n",
+        "  CASE\n",
+        "    WHEN irregularidade LIKE 'Insatisfação com o atendimento%' THEN 'Atendimento/SAC'\n",
+        "    WHEN irregularidade LIKE 'Oferta ou prestação de informação%' THEN 'Informação Inadequada'\n",
+        "    WHEN irregularidade LIKE 'Débito em conta%' THEN 'Débitos Não Autorizados'\n",
+        "    WHEN irregularidade LIKE '%SCR%' THEN 'SCR/Informações de Crédito'\n",
+        "    WHEN irregularidade LIKE '%conta de pagamento%' THEN 'Contas e Pagamentos'\n",
+        "    WHEN irregularidade LIKE '%cartões de crédito%' THEN 'Cartões de Crédito'\n",
+        "    WHEN irregularidade LIKE '%crédito consignado%' THEN 'Crédito Consignado'\n",
+        "    WHEN irregularidade LIKE '%crédito%' THEN 'Crédito (Outros)'\n",
+        "    ELSE 'Outros'\n",
+        "  END AS super_categoria,\n",
+        "  SUM(total_procedentes) AS total_procedentes,\n",
+        "  COUNT(DISTINCT irregularidade) AS qtd_irregularidades\n",
+        "FROM\n",
+        "  workspace.bacen_gold.top_irregularidades_periodo\n",
+        "WHERE\n",
+        "  (ano, trimestre) IN (\n",
+        "    SELECT\n",
+        "      MAX(ano),\n",
+        "      MAX(trimestre)\n",
+        "    FROM\n",
+        "      workspace.bacen_gold.top_irregularidades_periodo\n",
+        "    WHERE\n",
+        "      ano\n",
+        "        = (\n",
+        "          SELECT\n",
+        "            MAX(ano)\n",
+        "          FROM\n",
+        "            workspace.bacen_gold.top_irregularidades_periodo\n",
+        "        )\n",
+        "  )\n",
+        "GROUP BY\n",
+        "  super_categoria\n",
+        "ORDER BY\n",
+        "  total_procedentes DESC"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "cfaf6d1f",
+      "displayName": "Reclamações",
+      "layout": [
+        {
+          "widget": {
+            "name": "evolucao_reclamacoes",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "rec_evolucao",
+                  "fields": [
+                    {
+                      "name": "categoria",
+                      "expression": "`categoria`"
+                    },
+                    {
+                      "name": "ano",
+                      "expression": "`ano`"
+                    },
+                    {
+                      "name": "sum(total_reclamacoes)",
+                      "expression": "SUM(`total_reclamacoes`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Evolução Temporal — Reclamações"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "ano",
+                  "displayName": "ano",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_reclamacoes)",
+                  "displayName": "total_reclamacoes",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "categoria",
+                  "displayName": "categoria",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "top_reclamacoes",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "rec_top",
+                  "fields": [
+                    {
+                      "name": "categoria",
+                      "expression": "`categoria`"
+                    },
+                    {
+                      "name": "sum(qtd_reclamacoes)",
+                      "expression": "SUM(`qtd_reclamacoes`)"
+                    },
+                    {
+                      "name": "instituicao_financeira",
+                      "expression": "`instituicao_financeira`"
+                    }
+                  ],
+                  "cubeGroupingSets": {
+                    "sets": [
+                      {
+                        "fieldNames": [
+                          "categoria"
+                        ]
+                      },
+                      {
+                        "fieldNames": [
+                          "instituicao_financeira"
+                        ]
+                      }
+                    ]
+                  },
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "SUM(`qtd_reclamacoes`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Top Instituições — Reclamações 2026 T2",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(qtd_reclamacoes)",
+                  "displayName": "qtd_reclamacoes",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "instituicao_financeira",
+                  "displayName": "instituicao_financeira",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "measure-reversed",
+                      "measure": {
+                        "fieldName": "sum(qtd_reclamacoes)"
+                      }
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "categoria",
+                  "displayName": "categoria",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "ranking_reclamacoes",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "rec_ranking",
+                  "fields": [
+                    {
+                      "name": "ranking_periodo",
+                      "expression": "`ranking_periodo`"
+                    },
+                    {
+                      "name": "categoria",
+                      "expression": "`categoria`"
+                    },
+                    {
+                      "name": "instituicao_financeira",
+                      "expression": "`instituicao_financeira`"
+                    },
+                    {
+                      "name": "qtd_reclamacoes",
+                      "expression": "`qtd_reclamacoes`"
+                    },
+                    {
+                      "name": "taxa_reclamacoes_por_milhao",
+                      "expression": "`taxa_reclamacoes_por_milhao`"
+                    },
+                    {
+                      "name": "indice",
+                      "expression": "`indice`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Ranking Reclamações 2026 T2"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "ranking_periodo"
+                  },
+                  {
+                    "fieldName": "categoria"
+                  },
+                  {
+                    "fieldName": "instituicao_financeira"
+                  },
+                  {
+                    "fieldName": "qtd_reclamacoes"
+                  },
+                  {
+                    "fieldName": "taxa_reclamacoes_por_milhao"
+                  },
+                  {
+                    "fieldName": "indice"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 12,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "ouvidorias",
+      "displayName": "Ouvidorias",
+      "layout": [
+        {
+          "widget": {
+            "name": "evolucao_ouvidorias",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ouv_evolucao",
+                  "fields": [
+                    {
+                      "name": "categoria",
+                      "expression": "`categoria`"
+                    },
+                    {
+                      "name": "ano",
+                      "expression": "`ano`"
+                    },
+                    {
+                      "name": "sum(total_respostas)",
+                      "expression": "SUM(`total_respostas`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Evolução Temporal — Ouvidorias"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "ano",
+                  "displayName": "ano",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_respostas)",
+                  "displayName": "total_respostas",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "categoria",
+                  "displayName": "categoria",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "top_ouvidorias",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ouv_top",
+                  "fields": [
+                    {
+                      "name": "sum(nota_final)",
+                      "expression": "SUM(`nota_final`)"
+                    },
+                    {
+                      "name": "instituicao_financeira",
+                      "expression": "`instituicao_financeira`"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "SUM(`nota_final`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "fields": [],
+                  "value": "Top Instituições — Ouvidorias 2021 T4"
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(nota_final)",
+                  "displayName": "nota_final",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "instituicao_financeira",
+                  "displayName": "instituicao_financeira",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "measure-reversed",
+                      "measure": {
+                        "fieldName": "sum(nota_final)"
+                      }
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "ranking_ouvidorias",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ouv_ranking",
+                  "fields": [
+                    {
+                      "name": "ranking_nota",
+                      "expression": "`ranking_nota`"
+                    },
+                    {
+                      "name": "categoria",
+                      "expression": "`categoria`"
+                    },
+                    {
+                      "name": "instituicao_financeira",
+                      "expression": "`instituicao_financeira`"
+                    },
+                    {
+                      "name": "nota_final",
+                      "expression": "`nota_final`"
+                    },
+                    {
+                      "name": "nota_prazo",
+                      "expression": "`nota_prazo`"
+                    },
+                    {
+                      "name": "nota_qualidade",
+                      "expression": "`nota_qualidade`"
+                    },
+                    {
+                      "name": "tempo_medio_respostas",
+                      "expression": "`tempo_medio_respostas`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Ranking Ouvidorias 2021 T4"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "ranking_nota"
+                  },
+                  {
+                    "fieldName": "categoria"
+                  },
+                  {
+                    "fieldName": "instituicao_financeira"
+                  },
+                  {
+                    "fieldName": "nota_final"
+                  },
+                  {
+                    "fieldName": "nota_prazo"
+                  },
+                  {
+                    "fieldName": "nota_qualidade"
+                  },
+                  {
+                    "fieldName": "tempo_medio_respostas"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 12,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "irregularidades",
+      "displayName": "Irregularidades",
+      "layout": [
+        {
+          "widget": {
+            "name": "evolucao_irregularidades",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "irr_evolucao",
+                  "fields": [
+                    {
+                      "name": "categoria",
+                      "expression": "`categoria`"
+                    },
+                    {
+                      "name": "ano",
+                      "expression": "`ano`"
+                    },
+                    {
+                      "name": "sum(total_procedentes)",
+                      "expression": "SUM(`total_procedentes`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Evolução Temporal — Irregularidades",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "ano",
+                  "displayName": "ano",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_procedentes)",
+                  "displayName": "total_procedentes",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "categoria",
+                  "displayName": "categoria",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "top_irregularidades",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "irr_top",
+                  "fields": [
+                    {
+                      "name": "sum(total_procedentes)",
+                      "expression": "SUM(`total_procedentes`)"
+                    },
+                    {
+                      "name": "instituicao_financeira",
+                      "expression": "`instituicao_financeira`"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "SUM(`total_procedentes`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "fields": [],
+                  "value": "Top Instituições — Irregularidades 2026 T2"
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(total_procedentes)",
+                  "displayName": "total_procedentes",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "instituicao_financeira",
+                  "displayName": "instituicao_financeira",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "measure-reversed",
+                      "measure": {
+                        "fieldName": "sum(total_procedentes)"
+                      }
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "ranking_irregularidades",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "irr_ranking",
+                  "fields": [
+                    {
+                      "name": "super_categoria",
+                      "expression": "`super_categoria`"
+                    },
+                    {
+                      "name": "irregularidade",
+                      "expression": "`irregularidade`"
+                    },
+                    {
+                      "name": "total_procedentes",
+                      "expression": "`total_procedentes`"
+                    },
+                    {
+                      "name": "qtd_instituicoes",
+                      "expression": "`qtd_instituicoes`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Ranking Irregularidades — 2026 T2",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "super_categoria",
+                    "headerAlignment": "left",
+                    "useForSearch": true
+                  },
+                  {
+                    "fieldName": "irregularidade",
+                    "headerAlignment": "left",
+                    "useForSearch": true
+                  },
+                  {
+                    "fieldName": "total_procedentes",
+                    "headerAlignment": "right",
+                    "useForSearch": false
+                  },
+                  {
+                    "fieldName": "qtd_instituicoes",
+                    "headerAlignment": "right",
+                    "useForSearch": false
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "super_categorias",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "irr_super",
+                  "fields": [
+                    {
+                      "name": "super_categoria",
+                      "expression": "`super_categoria`"
+                    },
+                    {
+                      "name": "sum(total_procedentes)",
+                      "expression": "SUM(`total_procedentes`)"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "SUM(`total_procedentes`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Super Categorias — Irregularidades 2026 T2",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(total_procedentes)",
+                  "displayName": "total_procedentes",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "super_categoria",
+                  "displayName": "super_categoria",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "measure-reversed",
+                      "measure": {
+                        "fieldName": "sum(total_procedentes)"
+                      }
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "super_categoria",
+                  "displayName": "super_categoria",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 12,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
